@@ -2,10 +2,7 @@ const express = require("express");
 const path = require("path");
 const util = require("util");
 var fs = require("fs");
-var db = require("../../db/db.json");
-
-
-
+var db = require("./db.json");
 const app = express();
 // we need to add this for heroku => process.env.PORT || <port number>;
 var PORT = process.env.PORT|| 8080;
@@ -14,23 +11,27 @@ var PORT = process.env.PORT|| 8080;
 app.use(express.urlencoded({ extended: true }));
 // this will be formatted in a json object
 app.use(express.json());
-//app.use(express.static("public"));
+
 
 //This will cause index.html page to be displayed in the browser: 
 app.get("/", function(req, res) {
-    res.sendFile(path.join(__dirname,"../../index.html"));
+    res.sendFile(path.resolve('.')+"/index.html");
 });
 
+//This will allow the style sheet to be loaded into the browser: 
 app.get("/assets/css/styles.css", function(req, res) {
-    res.sendFile(path.join(__dirname,"../css/styles.css"));
+    res.sendFile(path.resolve('.')+"/assets/css/styles.css");
 });
 
+//This will allow the script to be used on the web pages to be loaded into the browser: 
 app.get("/assets/js/index.js", function(req, res) {
-    res.sendFile(path.join(__dirname,"index.js"));
+    res.sendFile(path.resolve('.')+"/assets/js/index.js");
 });
 
+//This will display the notes.html file in the browser
 app.get("/notes", function(req, res) {
-    res.sendFile(path.join(__dirname,"../../notes.html"));
+//  res.sendFile(path.join(__dirname,"../../notes.html"));
+    res.sendFile(path.resolve('.')+"/notes.html");
 });
 
 app.get("/api/notes", function(req, res) {
@@ -41,43 +42,30 @@ app.get("/api/notes", function(req, res) {
 app.post("/api/notes", function(req, res) {
      req.body.id=db.length;
      db.push(req.body);
-     console.log("We are in the following directory: " + __dirname);
-     fs.writeFileSync("test.json", JSON.stringify(db));
+     db = renumId(db);
+     fs.writeFileSync(path.resolve('.') + "/assets/js/db.json", JSON.stringify(db));
      res.json(db);  
-     
 });
 
 app.delete("/api/notes/:id", function(req, res){
     db.splice(req.params.id,1);
-    fs.writeFileSync("db.json", JSON.stringify(db));
+    db = renumId(db);
+    fs.writeFileSync(path.resolve('.') + "/assets/js/db.json", JSON.stringify(db));
     res.json(db);
-  }); 
-
-// app.get("/api/waitList", function(req, res) {
-//     res.json(waitList);
-// });
+}); 
 
 // Starts the server to begin listening
 // =============================================================
 app.listen(PORT, function() {
     console.log(`App listening on port: ${PORT}`);
-  });
+});
 
-function updateJSONfile(db) 
-{
-   console.log(__dirname); 
-   fs.readFile(path.join(__dirname,"../../db/db.json"), 'utf8', function readFileCallback(err, data)
-   {
-      if (err)
-      {
-        console.log(err);
-      } 
-      else 
-      {
-        var obj = JSON.parse(data); //now it an object
-        json = JSON.stringify(obj); //convert it back to json
-        fs.writeFile('test.json', json, function(err){
-            if(err) throw err; }); // write it back 
-      }
-   });
+function renumId(db) {
+
+  for (var i = 0; i < db.length; i++)
+  {
+    db[i].id = i;
+  }
+  
+  return db;
 };
