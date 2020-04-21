@@ -7,11 +7,10 @@ const app = express();
 // we need to add this for heroku => process.env.PORT || <port number>;
 var PORT = process.env.PORT|| 8080;
 // this will look at the header and decide which of the two it should be: 
-// this will automatically be parsed by the server
+// this will cause the message to be automatically be parsed by the server:
 app.use(express.urlencoded({ extended: true }));
-// this will be formatted in a json object
+// this will send the message back as a formatted json object
 app.use(express.json());
-
 
 //This will cause index.html page to be displayed in the browser: 
 app.get("/", function(req, res) {
@@ -30,7 +29,6 @@ app.get("/assets/js/index.js", function(req, res) {
 
 //This will display the notes.html file in the browser
 app.get("/notes", function(req, res) {
-//  res.sendFile(path.join(__dirname,"../../notes.html"));
     res.sendFile(path.resolve('.')+"/notes.html");
 });
 
