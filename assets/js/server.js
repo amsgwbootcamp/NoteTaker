@@ -5,7 +5,7 @@ var fs = require("fs");
 var db = require("./db.json");
 const app = express();
 // we need to add this for heroku => process.env.PORT || <port number>;
-var PORT = process.env.PORT|| 8080;
+var PORT = process.env.PORT|| 3000;
 // this will look at the header and decide which of the two it should be: 
 // this will cause the message to be automatically be parsed by the server:
 app.use(express.urlencoded({ extended: true }));
