@@ -18,13 +18,13 @@ app.get("/", function(req, res) {
 });
 
 //This will allow the style sheet to be loaded into the browser: 
-app.get("/assets/css/styles.css", function(req, res) {
-    res.sendFile(path.resolve('.')+"/assets/css/styles.css");
+app.get("/styles.css", function(req, res) {
+    res.sendFile(path.resolve('.')+"/styles.css");
 });
 
 //This will allow the script to be used on the web pages to be loaded into the browser: 
-app.get("/assets/js/index.js", function(req, res) {
-    res.sendFile(path.resolve('.')+"/assets/js/index.js");
+app.get("/index.js", function(req, res) {
+    res.sendFile(path.resolve('.')+"/index.js");
 });
 
 //This will display the notes.html file in the browser
@@ -41,14 +41,14 @@ app.post("/api/notes", function(req, res) {
      req.body.id=db.length;
      db.push(req.body);
      db = renumId(db);
-     fs.writeFileSync(path.resolve('.') + "/assets/js/db.json", JSON.stringify(db));
+     fs.writeFileSync(path.resolve('.')+"/db.json", JSON.stringify(db));
      res.json(db);  
 });
 
 app.delete("/api/notes/:id", function(req, res){
     db.splice(req.params.id,1);
     db = renumId(db);
-    fs.writeFileSync(path.resolve('.') + "/assets/js/db.json", JSON.stringify(db));
+    fs.writeFileSync(path.resolve('.')+"/db.json", JSON.stringify(db));
     res.json(db);
 }); 
 
