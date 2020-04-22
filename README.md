@@ -25,7 +25,8 @@ Application should allow users to delete previously saved notes.
 - - -
 ## How To Use:
 
-In the browser the user will enter the following URL:  .  
+In the browser the user will enter the following URL:  
+https://hidden-woodland-55628.herokuapp.com/  
 
 On this screen, the user will click the Get Started Button.  
 They will be taken to a second screen where they will see on the left side all of the notes that have been saved.  There will be a trash can icon that they can click and the note will be deleted.  In the upper right hand corner, they will see two icons:  one that looks like a disk and the other that looks like a pencil.  The disk will save the current message and the pencil will blank out the screen so a new note can be entered and then saved by clicking the disk icon.  
